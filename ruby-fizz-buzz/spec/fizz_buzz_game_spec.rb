@@ -25,7 +25,7 @@ describe FizzBuzz::Game do
     ])
   end
 
-  describe "buzz flow (multiples of 3 return Fizz)" do
+  describe "buzz flow (multiples of 5 return Buzz)" do
     define_tests_for([
       [5,"Buzz"],
       [5*2,"Buzz"]
@@ -51,7 +51,13 @@ describe FizzBuzz::Game do
     ])
   end
 
-  describe "buzz bang flow (multiples of 5 and 7 return BuzzBang)" do
+  describe "fizz bang flow (multiples of 3 and 7 return FizzBang)" do
+    define_tests_for([
+      [3*7,"FizzBang"]
+    ])
+  end 
+
+  describe "fizz buzz bang flow (multiples of 3, 5 and 7 return BuzzBang)" do
     define_tests_for([
       [3*5*7,"FizzBuzzBang"]
     ])
