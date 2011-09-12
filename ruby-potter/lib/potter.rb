@@ -24,20 +24,18 @@ class DPOptimizer
   end
 
   def find_or_create_optimal_set_for(entry)
-    if set_index = optimal_set_index_for(entry)
-      result = @sets[set_index]
-    else
+    unless result = optimal_set_for(entry)
       result = Set.new()
       @sets << result
     end
     result
   end
 
-  def optimal_set_index_for(entry)
-    @sets.each_with_index.inject([Float::INFINITY, nil]) do |memo, (set, idx)|
-      if new_set = set.add?(entry)
-        memo = [optimized_value, idx] if optimized_value < memo[0]
-        new_set.delete(entry)
+  def optimal_set_for(entry)
+    @sets.inject([Float::INFINITY, nil]) do |memo, set|
+      if set = set.add?(entry)
+        memo = [optimized_value, set] if optimized_value < memo[0]
+        set.delete(entry)
       end
 
       memo
