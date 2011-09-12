@@ -19,14 +19,18 @@ class DPOptimizer
   private
   def create_pricing_sets(entries)
     entries.each do |entry|
-      if set_index = optimal_set_for(entry)
-        set_o = @sets[set_index]
-      else
-        set_o = Set.new()
-        @sets << set_o
-      end
-      set_o.add(entry)
+      find_or_create_optimal_set_for(entry).add(entry)
     end
+  end
+
+  def find_or_create_optimal_set_for(entry)
+    if set_index = optimal_set_for(entry)
+      result = @sets[set_index]
+    else
+      result = Set.new()
+      @sets << result
+    end
+    result
   end
 
   def optimal_set_for(entry)
