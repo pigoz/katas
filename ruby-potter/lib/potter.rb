@@ -7,8 +7,7 @@ class DPOptimizer
   end
 
   def price(entries)
-    @sets.clear
-    create_pricing_sets(entries)
+    refresh_optimized_structure(entries)
     optimized_value
   end
 
@@ -17,7 +16,8 @@ class DPOptimizer
   end
 
   private
-  def create_pricing_sets(entries)
+  def refresh_optimized_structure(entries)
+    @sets.clear
     entries.each do |entry|
       find_or_create_optimal_set_for(entry).add(entry)
     end
