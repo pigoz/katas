@@ -1,16 +1,19 @@
 require 'set'
 
-class DPPricer
-  def initialize(base_price, discount_percentages)
-    @base_price = base_price
-    @discount_percentages = discount_percentages
+class DPOptimizer
+  def initialize(pricer)
+    @pricer = pricer
     @sets = []
   end
 
   def price(entries)
     @sets.clear
     create_pricing_sets(entries)
-    sets_price(@sets)
+    optimized_value
+  end
+
+  def optimized_value
+    @pricer.prices(@sets)
   end
 
   private
@@ -30,8 +33,8 @@ class DPPricer
     @sets.each_with_index.inject([Float::INFINITY, nil]) do |memo, (set, idx)|
       new_set = set.add?(entry)
 
-      if new_set and sets_price(@sets) < memo[0]
-        memo = [sets_price(@sets), idx]
+      if new_set and optimized_value < memo[0]
+        memo = [optimized_value, idx]
       end
 
       new_set.delete(entry) if new_set
@@ -39,13 +42,20 @@ class DPPricer
       memo
     end[1]
   end
+end
 
-  def set_price(set)
+class Pricer
+  def initialize(base_price, discount_percentages)
+    @base_price = base_price
+    @discount_percentages = discount_percentages
+  end
+
+  def price(set)
     set.size * @base_price * @discount_percentages[set.size-1]
   end
 
-  def sets_price(sets)
-    sets.inject(0) { |memo, set| memo + set_price(set) }
+  def prices(sets)
+    sets.inject(0) { |memo, set| memo + price(set) }
   end
 end
 
