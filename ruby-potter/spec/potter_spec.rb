@@ -7,9 +7,6 @@ describe Potter do
       DPPricer.new(
         8.0, [1.0, 0.95, 0.90, 0.80, 0.75]
       )
-      #, GreedyPricer.new(
-      #  8.0, [1.0, 0.95, 0.90, 0.80, 0.75], 5
-      #)
     )
   }
 
