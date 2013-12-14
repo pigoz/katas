@@ -9,6 +9,10 @@ defmodule CoinChangeTest do
     assert CoinChange.change([1,2], 4) == [0,2]
   end
 
+  test "returns [0,0,0,1] with D=[1,2,3,4] C=4" do
+    assert CoinChange.change([1,2,3,4], 4) == [0,0,0,1]
+  end
+
   test "returns [1,1] with D=[1,2] C=3" do
     assert CoinChange.change([1,2], 3) == [1,1]
   end
